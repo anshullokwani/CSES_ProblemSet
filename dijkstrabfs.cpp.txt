@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>  
+using namespace std; 
+void dijkstra(int src, vector<int> &vis, vector<int> &dis, vector<pair<int,int>> adj[])
+{
+    queue<int>qu;
+    qu.push(src);
+    vis[src]=1;
+    while(!qu.empty())
+    {
+        int node=qu.front();
+        qu.pop();
+        for(auto it: adj[node])
+        {
+            if(!vis[it.first])
+            {
+                qu.push(it.first);
+                vis[it.first]=1;
+            }
+            if(dis[it.first]>dis[node]+it.second)
+            {
+                dis[it.first]=dis[node]+it.second;
+            }
+        }
+    }
+}
+int main() 
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);cout.tie(0);
+    int n,m,src;	cin>>n>>m>>src;
+    vector<pair<int,int>> adj[n+1];
+    for(int i=0;i<m;i++)
+    {
+    	int x,y,wt;
+    	cin>>x>>y>>wt;
+    	adj[x].push_back({y,wt});
+    	adj[y].push_back({x,wt});
+    }
+    vector<int> dis(n,99999999);
+    vector<int> vis(n,0);
+    dis[src]=0;
+    dijkstra(src,vis,dis,adj);
+    for(int i=0;i<n;i++)
+    {
+        cout<<dis[i]<<" ";
+    }
+}
